@@ -13,12 +13,14 @@ import {
 import * as strings from 'QuickLinksListViewWebPartStrings';
 import QuickLinksListView from './components/QuickLinksListView';
 import { IQuickLinksListViewProps } from './components/IQuickLinksListViewProps';
+import { SPHttpClient } from '@microsoft/sp-http';
 
 export interface IQuickLinksListViewWebPartProps {
   description: string;
   numberOfLinks: number;
   listName: string,
-  context: string
+  context: string,
+  httpclient: SPHttpClient;
 }
 
 export default class QuickLinksListViewWebPart extends BaseClientSideWebPart<IQuickLinksListViewWebPartProps> {
@@ -30,7 +32,8 @@ export default class QuickLinksListViewWebPart extends BaseClientSideWebPart<IQu
         description: this.properties.description,
         numberOfLinks: this.properties.numberOfLinks,
         listName: this.properties.listName,
-        context: this.context.pageContext.web.title
+        context: this.context.pageContext,
+        httpClient: this.context.spHttpClient
       }
     );
 
