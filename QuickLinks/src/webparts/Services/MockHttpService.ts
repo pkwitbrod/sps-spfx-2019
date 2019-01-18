@@ -1,4 +1,4 @@
-import ISPLinkList from '../Interfaces/ISharePointLinkListItem'
+import ISPLinkList from '../Interfaces/ISharePointLinkListItem';
 
 export default class MockHttpClient  {
 

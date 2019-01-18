@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './QuickLinksListView.module.scss';
 import { IQuickLinksListViewProps } from './IQuickLinksListViewProps';
 import { escape } from '@microsoft/sp-lodash-subset';
-import ISPLinkList from '../../../Interfaces/ISharePointLinkListItem'
+import ISPLinkList from '../../Interfaces/ISharePointLinkListItem';
 
 import {
   SPHttpClient,
@@ -10,8 +10,8 @@ import {
  } from '@microsoft/sp-http';
 
 
-import MockHttpClient from '../../../Services/MockHttpService'
-import { SharepointLinkListService } from '../../../Services/SharepointLinkListService'
+import MockHttpClient from '../../Services/MockHttpService';
+import { SharepointLinkListService } from '../../Services/SharepointLinkListService';
 
 //State defaults to type object but we want a bit more than that so let's make an interface
 export interface IQuickLinksState{
@@ -35,47 +35,35 @@ export default class QuickLinksListView extends React.Component<IQuickLinksListV
       QuickLinkNumberOfLinks: defaultNumber,
       HelpfulLinks: defaultItem,
       ListName: null
-    }
+    };
 
   }
 
-  public componentWillMount(): void{ 
-    this.setState({QuickLinkEnvironMent: this.props.context.web.title})
+  public componentWillMount(){ 
+    this.setState({QuickLinkEnvironMent: this.props.context.web.title});
   }
 
-  public componentDidMount(): void{
-    if (this.state.QuickLinkEnvironMent === "Local Workbench") {
-      this._getMockListData().then((response) => {
-        const ListItems: ISPLinkList[] = response;
-        this.setState({HelpfulLinks: ListItems});
-      });
-    }else{
-      if(!this._listNotConfigured(this.props)){
-        const sharepointClient = new SharepointLinkListService(this.props.listName, this.props.context.web.absoluteUrl, this.props.httpClient);
-        sharepointClient.getItems().then((sharePointResponse) => {
-          const ListItems: ISPLinkList[] = sharePointResponse;
-          this.setState({HelpfulLinks: ListItems});
-        });
-      }
-    }
+  public componentDidMount(){
+     this._loadListItems();
   }
 
 
   public componentDidUpdate(previousProps: IQuickLinksListViewProps, previousState: IQuickLinksState ): void{
-    if(previousState.QuickLinkNumberOfLinks !== this.props.numberOfLinks){
-      this.setState({QuickLinkNumberOfLinks: this.props.numberOfLinks})
+    console.log(this.props);
+    if(previousState.QuickLinkNumberOfLinks !== this.props.numberOfLinks && this.props.numberOfLinks !== undefined){
+      this.setState({QuickLinkNumberOfLinks: this.props.numberOfLinks});
     }
 
     if(previousState.ListName !== this.props.listName){
       this.setState({ListName: this.props.listName});
+      this._loadListItems();
     }
-    console.log(this.state);
    }
 
   public render(): React.ReactElement<IQuickLinksListViewProps> {
 
     const links: JSX.Element[] = this.state.HelpfulLinks.map((item: ISPLinkList, i: number): JSX.Element => {
-      if (i < this.props.numberOfLinks) {
+      if (i < this.state.QuickLinkNumberOfLinks) {
         return (
           <li key={item.Id}><a href={item.Url} target='_blank'>{item.Title}</a></li>
         );
@@ -83,7 +71,6 @@ export default class QuickLinksListView extends React.Component<IQuickLinksListV
     });
 
 
-    console.log(this.props.context)
     return (
       <div className={ styles.quickLinksListView }>
         <div className={ styles.container }>
@@ -123,6 +110,19 @@ export default class QuickLinksListView extends React.Component<IQuickLinksListV
       return props.listName === undefined ||
         props.listName === null ||
         props.listName.length === 0;
+    }
+
+    private async _loadListItems(){
+      if (this.state.QuickLinkEnvironMent === "Local Workbench") {
+        const listItems = await this._getMockListData();
+        this.setState({HelpfulLinks: listItems});
+      }else{
+        if(!this._listNotConfigured(this.props)){
+          const sharepointClient = new SharepointLinkListService(this.props.listName, this.props.context.web.absoluteUrl, this.props.httpClient);   
+          const items = await sharepointClient.getItems();
+          this.setState({HelpfulLinks: items});
+        }
+      }
     }
 
 
