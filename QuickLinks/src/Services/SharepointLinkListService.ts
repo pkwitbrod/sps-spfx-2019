@@ -23,7 +23,7 @@ export class SharepointLinkListService {
       private async _getItems(): Promise<ISPLinkList[]> {
         const queryString: string = `?$select=Id,Title,Url`;
         const url: string = `${this._siteUrl}/_api/lists/getbytitle('${this._listName}')/items${queryString}`;
-            
+        console.log("here");    
         const items = await this._httpClient.get(url, SPHttpClient.configurations.v1);
         
         return await items.json().then((listItems: {value: ISPLinkList[]}) => {

@@ -17,7 +17,8 @@ import { SharepointLinkListService } from '../../../Services/SharepointLinkListS
 export interface IQuickLinksState{
   QuickLinkEnvironMent: string;
   QuickLinkNumberOfLinks: number;
-  HelpfulLinks: ISPLinkList[]
+  HelpfulLinks: ISPLinkList[];
+  ListName: string;
 }
 
 export default class QuickLinksListView extends React.Component<IQuickLinksListViewProps, IQuickLinksState> {
@@ -32,12 +33,17 @@ export default class QuickLinksListView extends React.Component<IQuickLinksListV
     this.state = {
       QuickLinkEnvironMent: defaultEnvironment,
       QuickLinkNumberOfLinks: defaultNumber,
-      HelpfulLinks: defaultItem
+      HelpfulLinks: defaultItem,
+      ListName: null
     }
 
   }
 
-  public componentWillMount(): void{
+  public componentWillMount(): void{ 
+    this.setState({QuickLinkEnvironMent: this.props.context.web.title})
+  }
+
+  public componentDidMount(): void{
     if (this.state.QuickLinkEnvironMent === "Local Workbench") {
       this._getMockListData().then((response) => {
         const ListItems: ISPLinkList[] = response;
@@ -59,6 +65,11 @@ export default class QuickLinksListView extends React.Component<IQuickLinksListV
     if(previousState.QuickLinkNumberOfLinks !== this.props.numberOfLinks){
       this.setState({QuickLinkNumberOfLinks: this.props.numberOfLinks})
     }
+
+    if(previousState.ListName !== this.props.listName){
+      this.setState({ListName: this.props.listName});
+    }
+    console.log(this.state);
    }
 
   public render(): React.ReactElement<IQuickLinksListViewProps> {
