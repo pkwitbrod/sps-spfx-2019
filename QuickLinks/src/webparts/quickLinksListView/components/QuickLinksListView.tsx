@@ -76,9 +76,9 @@ export default class QuickLinksListView extends React.Component<IQuickLinksListV
         <div className={ styles.container }>
         <div className={`ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}`}>
             <div className="ms-Grid-col ms-lg10 ms-xl8 ms-xlPush2 ms-lgPush1">
-              <span className="ms-font-xl ms-fontColor-white">Helpful Links!</span>
+              <span className="ms-font-xl ms-fontColor-white">Helpful Links foi you.</span>
               {this._statusElement(this.props)}
-              <p className="ms-font-l ms-fontColor-white">Below is a list of links you can use to learn more about the SharePoint Framework</p>
+              <p className="ms-font-l ms-fontColor-white">Below is a list of links you can use to learn more about the SharePoint Framework.</p>
               <p className="ms-font-l ms-fontColor-white">Environment from props: {this.props.context.web.title}</p>
               <ul className={styles.customList}>
                 {links}
