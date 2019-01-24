@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "quick-links-list-view-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/quickLinksListView/QuickLinksListViewWebPart.js",
+          "manifest": "./src/webparts/quickLinksListView/QuickLinksListViewWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "QuickLinksListViewWebPartStrings": "lib/webparts/quickLinksListView/loc/{locale}.js"
+  }
+}
