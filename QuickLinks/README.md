@@ -1,6 +1,6 @@
 # SpFx ReadMe
 
-The following steps will walk you through setting up the SharePoint framework for new development or running this demo project. 
+The following steps will walk you through setting up the SharePoint framework for new development or running this demo project. If you have any questions you can open an issue here or reach out to me on [twitter](https://twitter.com/pkwitbrod)
 
 # Before You Start
 
@@ -57,7 +57,7 @@ After that finishes running you should get a status message. To run the webpart 
 gulp serve
 ```
 
-If you want to make any edits remember to only make them in the src folder. If you have any questison you can follow the Getting started link below or reach out to me on twitter. 
+If you want to make any edits remember to only make them in the src folder. If you have any questison you can follow the Getting started link below or reach out to me on [twitter](https://twitter.com/pkwitbrod). 
 
 ### More Information
 
